@@ -21,7 +21,7 @@ import {
   upsertMaster,
 } from "./db.ts";
 import { buildWorkbook, parseMasterWorkbook, parseUsageWorkbook } from "./excel.ts";
-import { OcrError, ocrAvailable, readCountSheet, readDeliveryNote, type ImageInput } from "./ocr.ts";
+import { OcrError, ocrAvailable, ocrSource, readCountSheet, readDeliveryNote, removeApiKey, saveApiKey, type ImageInput } from "./ocr.ts";
 import { notifyAll, saveSubscription, removeSubscription, subscriptionCount, vapidPublicKey, orderReminderMessage } from "./push.ts";
 import { currentPlan, discrepancyFor, engineInput, openOrderLines, today } from "./state.ts";
 
@@ -45,8 +45,32 @@ function bad(res: Response, message: string, code = 400, extra: object = {}) {
 // ---------- health / dashboard ----------
 
 api.get("/health", (_req, res) => {
-  res.json({ ok: true, ocr: ocrAvailable(), pushSubscribers: subscriptionCount(), auth: !!process.env.APP_PIN });
+  res.json({ ok: true, ocr: ocrAvailable(), ocrSource: ocrSource(), pushSubscribers: subscriptionCount(), auth: !!process.env.APP_PIN });
 });
+
+// ---------- AI scan key ----------
+
+api.put(
+  "/ocr/key",
+  wrap(async (req, res) => {
+    try {
+      await saveApiKey(String(req.body?.key ?? ""));
+    } catch (e) {
+      return ocrFail(res, e);
+    }
+    audit({ actor: actor(), action: "update", entity: "setting", field: "AI scan key", newValue: "set" });
+    res.json({ ok: true });
+  }),
+);
+
+api.delete(
+  "/ocr/key",
+  wrap((_req, res) => {
+    removeApiKey();
+    audit({ actor: actor(), action: "update", entity: "setting", field: "AI scan key", newValue: "removed" });
+    res.json({ ok: true, ocr: ocrAvailable() });
+  }),
+);
 
 api.get(
   "/dashboard",

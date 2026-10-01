@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api, type Item, type MatchResult, type OpenLine } from "../api.ts";
 import { useDash } from "../App.tsx";
-import { Conf, Icon, Loading, PhotoPicker, SkuSelect, TopBar, errMsg, useLoad, useToast } from "../ui.tsx";
+import { AiScanSetup, go, Conf, Icon, Loading, PhotoPicker, SkuSelect, TopBar, errMsg, useLoad, useToast } from "../ui.tsx";
 import { day, fmt, unitLabel, type PreparedPhoto } from "../util.ts";
 
 interface OcrLine {
@@ -64,6 +64,7 @@ export function Delivery() {
     sku ? (open.data ?? []).filter((o) => o.sku === sku && o.expected_delivery <= date).reduce((a, o) => a + o.outstanding, 0) : 0;
 
   const read = async () => {
+    if (!dash!.ocr) return go("/settings");
     setStep("reading");
     setRetake(null);
     const fd = new FormData();
@@ -151,7 +152,7 @@ export function Delivery() {
     }
   };
 
-  if (step === "reading") return <Loading label="Reading the delivery note…" />;
+  if (step === "reading") return <Loading label="AI scan is reading the delivery note…" />;
 
   if (step === "done" && checks)
     return (
@@ -185,24 +186,24 @@ export function Delivery() {
   if (step === "start")
     return (
       <>
-        <TopBar title="Delivery" sub="Photograph the delivery note" />
+        <TopBar title="Delivery" sub="Photograph the delivery note, AI scan reads the lines" />
         {retake && (
           <div className="card warn">
             <strong>Please retake the photo</strong>
             <div className="small">{retake}</div>
           </div>
         )}
+        {!dash!.ocr && <AiScanSetup />}
         <div className="card">
           <PhotoPicker photos={photos} onChange={setPhotos} label="Delivery note" />
           <div className="row" style={{ marginTop: 14 }}>
-            <button className="btn primary grow" disabled={!photos.length || !dash!.ocr} onClick={read}>
-              <Icon name="check" /> Read delivery note
+            <button className="btn primary grow" disabled={!photos.length} onClick={read}>
+              <Icon name="scan" /> AI scan note
             </button>
             <button className="btn" onClick={addBlank}>
               Type in
             </button>
           </div>
-          {!dash!.ocr && <div className="small muted" style={{ marginTop: 8 }}>Photo reading is not set up on the server. Type the lines in or receive against an order below.</div>}
         </div>
         <OpenOrders open={open.data} onPick={addFromOrder} today={dash!.today} />
       </>

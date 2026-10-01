@@ -59,11 +59,13 @@ Needs Node.js 22.13 or newer (uses the built-in `node:sqlite`).
 
 ```bash
 npm install
-cp .env.example .env        # add ANTHROPIC_API_KEY for photo reading
+cp .env.example .env        # optional: ANTHROPIC_API_KEY, APP_PIN
 npm run build               # builds the web app into dist/
 set -a; . ./.env; set +a
 npm start                   # http://localhost:3000
 ```
+
+**AI scan** (reading handwritten counts and delivery notes) needs a Claude API key. Paste it once in the app under **Settings → AI scan**; it is checked, stored on the server and never shown again. Alternatively set `ANTHROPIC_API_KEY` in the environment. Without a key everything else works and counts can be typed in.
 
 For development, `npm run dev` runs the API on :3000 and the Vite dev server with hot reload. Tests: `npm test`.
 

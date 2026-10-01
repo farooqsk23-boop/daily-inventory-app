@@ -4,17 +4,52 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
+import { getSecret, setSecret, run } from "./db.ts";
 
 const MODEL = process.env.OCR_MODEL ?? "claude-opus-5-5";
 
-let client: Anthropic | null = null;
-export function ocrAvailable(): boolean {
-  return !!(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
+// The API key comes from the environment, or from Settings in the app
+// (stored server-side only; it is never sent back to the browser).
+function storedKey(): string | null {
+  return getSecret("anthropicKey");
 }
+
+export function ocrSource(): "env" | "settings" | null {
+  if (process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN) return "env";
+  return storedKey() ? "settings" : null;
+}
+
+export function ocrAvailable(): boolean {
+  return ocrSource() !== null;
+}
+
+let client: { key: string | null; c: Anthropic } | null = null;
 function anthropic(): Anthropic {
-  if (!ocrAvailable()) throw new OcrError("OCR is not configured. Set ANTHROPIC_API_KEY on the server, or type the numbers in manually.", "config");
-  client ??= new Anthropic();
-  return client;
+  const source = ocrSource();
+  if (!source) throw new OcrError("AI scan is not switched on yet. Add your Claude API key in Settings → AI scan, or type the numbers in.", "config");
+  const key = source === "env" ? null : storedKey();
+  if (!client || client.key !== key) client = { key, c: key ? new Anthropic({ apiKey: key }) : new Anthropic() };
+  return client.c;
+}
+
+/** Checks a key against the API (no tokens used) and saves it. */
+export async function saveApiKey(key: string): Promise<void> {
+  const trimmed = key.trim();
+  if (!/^sk-ant-[\w-]{20,}$/.test(trimmed)) throw new OcrError("That doesn't look like a Claude API key (it starts with sk-ant-).", "config");
+  try {
+    await new Anthropic({ apiKey: trimmed, maxRetries: 1 }).models.retrieve(MODEL);
+  } catch (e) {
+    if (e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError)
+      throw new OcrError("The key was rejected. Check it in the Claude Console and paste it again.", "config");
+    if (e instanceof Anthropic.NotFoundError) throw new OcrError(`This key can't use the scan model (${MODEL}).`, "config");
+    if (e instanceof Anthropic.APIError) throw new OcrError(`Could not check the key (${e.status ?? "network"}). Try again.`, "failed");
+    throw e;
+  }
+  setSecret("anthropicKey", trimmed);
+}
+
+export function removeApiKey() {
+  run("DELETE FROM settings WHERE key = ?", "secret:anthropicKey");
 }
 
 export class OcrError extends Error {

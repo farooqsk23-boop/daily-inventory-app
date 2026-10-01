@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api.ts";
 import { useDash } from "../App.tsx";
-import { Conf, ErrorBox, Icon, Loading, PhotoPicker, StatusPill, TopBar, errMsg, useToast } from "../ui.tsx";
+import { AiScanSetup, go, Conf, ErrorBox, Icon, Loading, PhotoPicker, StatusPill, TopBar, errMsg, useToast } from "../ui.tsx";
 import { day, fmt, unitLabel, type PreparedPhoto } from "../util.ts";
 import type { Status } from "../../../shared/types.ts";
 
@@ -62,6 +62,7 @@ export function Count() {
   const ocrBySku = useMemo(() => new Map((ocr?.lines ?? []).map((l) => [l.sku, l])), [ocr]);
 
   const readPhotos = async () => {
+    if (!dash!.ocr) return go("/settings");
     setStep("reading");
     setError(null);
     const fd = new FormData();
@@ -156,15 +157,16 @@ export function Count() {
     }
   };
 
-  if (step === "reading") return <Loading label={`Reading ${photos.length} photo${photos.length === 1 ? "" : "s"}… this takes about 20–40 seconds`} />;
+  if (step === "reading") return <Loading label={`AI scan is reading ${photos.length} photo${photos.length === 1 ? "" : "s"}… about 20–40 seconds`} />;
 
   if (step === "done" && result) return <Done result={result} onAgain={() => { setStep("start"); setPhotos([]); setOcr(null); setValues({}); }} />;
 
   if (step === "start")
     return (
       <>
-        <TopBar title="Daily count" sub="Count on the printed sheet, then photograph it" />
+        <TopBar title="Daily count" sub="Count on the printed sheet, photograph it, AI scan reads the numbers" />
         {error && <ErrorBox error={error} />}
+        {!dash!.ocr && <AiScanSetup />}
         <div className="card">
           <label className="field">
             <span>Count date</span>
@@ -181,14 +183,13 @@ export function Count() {
           </p>
           <PhotoPicker photos={photos} onChange={setPhotos} label="Take photo" />
           <div className="row" style={{ marginTop: 14 }}>
-            <button className="btn primary grow" disabled={!photos.length || !dash!.ocr} onClick={readPhotos}>
-              <Icon name="check" /> Read counts
+            <button className="btn primary grow" disabled={!photos.length} onClick={readPhotos}>
+              <Icon name="scan" /> AI scan counts
             </button>
             <button className="btn" onClick={manual}>
               Type in
             </button>
           </div>
-          {!dash!.ocr && <div className="small muted" style={{ marginTop: 8 }}>Photo reading is not set up on the server (ANTHROPIC_API_KEY). You can type counts in.</div>}
         </div>
       </>
     );

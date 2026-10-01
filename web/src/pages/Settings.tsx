@@ -9,7 +9,7 @@ export function SettingsPage() {
   const [s, setS] = useState<Settings>(dash!.settings);
   const [holiday, setHoliday] = useState("");
   const [saving, setSaving] = useState(false);
-  const health = useLoad<{ ocr: boolean; pushSubscribers: number; auth: boolean }>("/health");
+  const health = useLoad<{ ocr: boolean; ocrSource: "env" | "settings" | null; pushSubscribers: number; auth: boolean }>("/health");
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +36,7 @@ export function SettingsPage() {
   return (
     <>
       <TopBar title="Settings" />
+      <AiScan source={health.data?.ocrSource ?? null} loaded={!!health.data} onChange={() => { health.reload(); refresh(); }} />
       <form onSubmit={save}>
         <div className="card">
           <h2>Ordering</h2>
@@ -122,8 +123,7 @@ export function SettingsPage() {
 
       <div className="card small">
         <h2>Server</h2>
-        <div>Photo reading (OCR): {health.data?.ocr ? <span className="pill ok">ready</span> : <span className="pill low">not configured — set ANTHROPIC_API_KEY</span>}</div>
-        <div style={{ marginTop: 6 }}>PIN lock: {health.data?.auth ? <span className="pill ok">on</span> : <span className="pill">off — set APP_PIN</span>}</div>
+        <div>PIN lock: {health.data?.auth ? <span className="pill ok">on</span> : <span className="pill">off — set APP_PIN</span>}</div>
       </div>
     </>
   );
@@ -216,6 +216,67 @@ function MasterImport() {
         <Icon name="upload" /> Import from Excel
       </button>
       <input ref={ref} type="file" accept=".xlsx,.xlsm" hidden onChange={(e) => upload(e.target.files?.[0])} />
+    </div>
+  );
+}
+
+function AiScan({ source, loaded, onChange }: { source: "env" | "settings" | null; loaded: boolean; onChange: () => void }) {
+  const toast = useToast();
+  const [key, setKey] = useState("");
+  const [busy, setBusy] = useState(false);
+  const save = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      await api.put("/ocr/key", { key });
+      setKey("");
+      toast("AI scan is on");
+      onChange();
+    } catch (err) {
+      toast(errMsg(err), "error");
+    } finally {
+      setBusy(false);
+    }
+  };
+  const remove = async () => {
+    if (!confirm("Remove the API key? AI scan will stop working until you add one again.")) return;
+    await api.del("/ocr/key");
+    onChange();
+  };
+  return (
+    <div className={`card ${loaded && !source ? "warn" : ""}`}>
+      <h2>
+        <span className="row nowrap" style={{ gap: 8 }}>
+          <Icon name="scan" /> AI scan
+        </span>
+        {loaded && (source ? <span className="pill ok">on</span> : <span className="pill low">off</span>)}
+      </h2>
+      <p className="small muted" style={{ marginTop: 0 }}>
+        Reads handwritten count sheets and delivery notes from your photos. You still check every number before anything is saved.
+      </p>
+      {source === "env" ? (
+        <div className="small">Switched on by the server's ANTHROPIC_API_KEY.</div>
+      ) : (
+        <form onSubmit={save}>
+          <label className="field">
+            <span>{source ? "Replace Claude API key" : "Claude API key"}</span>
+            <input className="input" type="password" autoComplete="off" placeholder="sk-ant-…" value={key} onChange={(e) => setKey(e.target.value)} />
+            <div className="tiny muted" style={{ marginTop: 4 }}>
+              Create one at console.anthropic.com → API keys. It is kept on the server only and never shown again.
+            </div>
+          </label>
+          <div className="row">
+            <button className="btn primary" disabled={busy || !key.trim()}>
+              {busy ? "Checking key…" : source ? "Replace key" : "Switch on AI scan"}
+            </button>
+            {source === "settings" && (
+              <button type="button" className="btn danger" onClick={remove}>
+                Remove key
+              </button>
+            )}
+          </div>
+        </form>
+      )}
     </div>
   );
 }

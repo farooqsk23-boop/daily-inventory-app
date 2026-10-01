@@ -30,6 +30,8 @@ const PATHS: Record<string, string> = {
   history: "M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l4 2",
   bell: "M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0",
   plus: "M12 5v14M5 12h14",
+  scan: "M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M12 7.5l1.2 3.3 3.3 1.2-3.3 1.2-1.2 3.3-1.2-3.3-3.3-1.2 3.3-1.2z",
+  key: "M15.5 7.5a3.5 3.5 0 1 1-3.4 4.3L4 20v-3h2v-2h2l1.6-1.6A3.5 3.5 0 0 1 15.5 7.5zM16 9h.01",
   back: "M15 18l-6-6 6-6",
   edit: "M4 20h4L19 9l-4-4L4 16zM14 6l4 4",
   trash: "M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13",
@@ -309,6 +311,26 @@ export function TopBar({ title, sub, right }: { title: string; sub?: ReactNode; 
         {sub && <div className="sub">{sub}</div>}
       </div>
       {right}
+    </div>
+  );
+}
+
+/** Shown in place of AI scan results when no API key is configured yet. */
+export function AiScanSetup() {
+  return (
+    <div className="card warn">
+      <div className="row nowrap" style={{ alignItems: "flex-start" }}>
+        <Icon name="key" />
+        <div className="grow">
+          <strong>Switch on AI scan</strong>
+          <div className="small" style={{ margin: "4px 0 10px" }}>
+            AI scan reads your handwritten counts and delivery notes. It needs a Claude API key, which you add once in Settings.
+          </div>
+          <a className="btn primary sm" href="#/settings">
+            Set up AI scan
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
