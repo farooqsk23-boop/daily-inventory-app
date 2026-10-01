@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api.ts";
 import { useDash } from "../App.tsx";
-import { AiScanSetup, go, Conf, ErrorBox, Icon, Loading, PhotoPicker, StatusPill, TopBar, errMsg, useToast } from "../ui.tsx";
+import { AiScanSetup, go, Conf, ErrorBox, Icon, Loading, PhotoPicker, ScanError, StatusPill, TopBar, errMsg, scanFailure, useToast, type ScanFailure } from "../ui.tsx";
 import { day, fmt, unitLabel, type PreparedPhoto } from "../util.ts";
 import type { Status } from "../../../shared/types.ts";
 
@@ -20,7 +20,7 @@ interface OcrLine {
 }
 interface OcrResponse {
   photos: string[];
-  quality: { photo: string; readable: boolean; problem: string; rowsRead: number }[];
+  quality: { photo: string; readable: boolean; problem: string; kind: string | null; rowsRead: number }[];
   lines: OcrLine[];
 }
 interface Context {
@@ -49,6 +49,7 @@ export function Count() {
   const [filter, setFilter] = useState<Filter>("check");
   const [query, setQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [scanError, setScanError] = useState<ScanFailure | null>(null);
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<SaveResult | null>(null);
 
@@ -65,6 +66,7 @@ export function Count() {
     if (!dash!.ocr) return go("/settings");
     setStep("reading");
     setError(null);
+    setScanError(null);
     const fd = new FormData();
     photos.forEach((p, i) => fd.append("photos", p.blob, `count-${i + 1}.jpg`));
     try {
@@ -76,7 +78,7 @@ export function Count() {
       setFilter("check");
       setStep("review");
     } catch (e) {
-      setError(errMsg(e));
+      setScanError(scanFailure(e));
       setStep("start");
     }
   };
@@ -166,6 +168,7 @@ export function Count() {
       <>
         <TopBar title="Daily count" sub="Count on the printed sheet, photograph it, AI scan reads the numbers" />
         {error && <ErrorBox error={error} />}
+        {scanError && <ScanError failure={scanError} onManual={manual} />}
         {!dash!.ocr && <AiScanSetup />}
         <div className="card">
           <label className="field">
@@ -196,16 +199,28 @@ export function Count() {
 
   // ----- review -----
   const unreadable = ocr?.quality.filter((q) => !q.readable) ?? [];
+  const limited = unreadable.filter((q) => q.kind === "quota" || q.kind === "failed");
+  const toRetake = unreadable.filter((q) => !limited.includes(q));
   return (
     <div className="has-sticky">
       <TopBar title="Check the counts" sub={`${day(date)} · nothing is saved until you confirm`} />
-      {unreadable.length > 0 && (
+      {limited.length > 0 && (
+        <div className="card warn" role="alert">
+          <strong>
+            {limited.length} photo{limited.length === 1 ? " was" : "s were"} not scanned
+          </strong>
+          <div className="small" style={{ margin: "4px 0 0" }}>
+            {limited[0].problem} Rows on {limited.length === 1 ? "that page" : "those pages"} are left blank below for you to type in.
+          </div>
+        </div>
+      )}
+      {toRetake.length > 0 && (
         <div className="card warn">
           <strong>
-            {unreadable.length} photo{unreadable.length === 1 ? "" : "s"} could not be read — please retake
+            {toRetake.length} photo{toRetake.length === 1 ? "" : "s"} could not be read — please retake
           </strong>
           <ul className="small" style={{ margin: "6px 0 10px", paddingLeft: 18 }}>
-            {unreadable.map((q) => (
+            {toRetake.map((q) => (
               <li key={q.photo}>{q.problem || "Unclear photo"}</li>
             ))}
           </ul>

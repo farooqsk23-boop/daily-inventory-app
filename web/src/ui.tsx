@@ -324,12 +324,46 @@ export function AiScanSetup() {
         <div className="grow">
           <strong>Switch on AI scan</strong>
           <div className="small" style={{ margin: "4px 0 10px" }}>
-            AI scan reads your handwritten counts and delivery notes. It needs a Claude API key, which you add once in Settings.
+            AI scan reads your handwritten counts and delivery notes. Choose Claude or Google Gemini in Settings and add its API key once.
           </div>
           <a className="btn primary sm" href="#/settings">
             Set up AI scan
           </a>
         </div>
+      </div>
+    </div>
+  );
+}
+
+export interface ScanFailure {
+  message: string;
+  kind: "config" | "retake" | "failed" | "quota" | string;
+}
+
+export function scanFailure(e: unknown): ScanFailure {
+  const kind = e instanceof ApiError ? String(e.body.kind ?? "failed") : "failed";
+  return { message: errMsg(e), kind };
+}
+
+/** What went wrong with AI scan, and the way forward: retake, wait, set up, or type it in. */
+export function ScanError({ failure, onManual }: { failure: ScanFailure; onManual: () => void }) {
+  const title =
+    failure.kind === "quota" ? "AI scan limit reached" : failure.kind === "retake" ? "Please retake the photo" : failure.kind === "config" ? "AI scan needs setting up" : "AI scan didn't work this time";
+  return (
+    <div className={`card ${failure.kind === "failed" ? "danger" : "warn"}`} role="alert">
+      <strong>{title}</strong>
+      <div className="small" style={{ margin: "4px 0 10px" }}>
+        {failure.message}
+      </div>
+      <div className="row">
+        <button className="btn sm primary" onClick={onManual}>
+          Enter manually
+        </button>
+        {failure.kind === "config" && (
+          <a className="btn sm" href="#/settings">
+            Open Settings
+          </a>
+        )}
       </div>
     </div>
   );

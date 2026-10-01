@@ -55,19 +55,37 @@ Every change records who or what made it in the **audit trail**: a manual edit, 
 
 ## Running it
 
-Needs Node.js 22.13 or newer (uses the built-in `node:sqlite`).
+Needs Node.js 22.13 or newer (uses the built-in `node:sqlite`). The same commands work on Windows (Command Prompt or PowerShell), macOS and Linux:
 
 ```bash
 npm install
-cp .env.example .env        # optional: ANTHROPIC_API_KEY, APP_PIN
 npm run build               # builds the web app into dist/
-set -a; . ./.env; set +a
 npm start                   # http://localhost:3000
 ```
 
-**AI scan** (reading handwritten counts and delivery notes) needs a Claude API key. Paste it once in the app under **Settings → AI scan**; it is checked, stored on the server and never shown again. Alternatively set `ANTHROPIC_API_KEY` in the environment. Without a key everything else works and counts can be typed in.
+Settings such as `APP_PIN` or `PORT` can go in a `.env` file in the project folder (copy `.env.example`). The server loads it on start, so there is no need to set variables in the shell.
 
-For development, `npm run dev` runs the API on :3000 and the Vite dev server with hot reload. Tests: `npm test`.
+## AI scan (Claude or Gemini)
+
+AI scan reads the handwritten count sheet and delivery notes from your photos. You can use either provider:
+
+| | Claude | Google Gemini |
+|---|---|---|
+| Get a key | console.anthropic.com → API keys | aistudio.google.com → Get API key |
+| Model used | `claude-opus-5-5` (`OCR_MODEL` to change) | `gemini-flash-latest` (`GEMINI_MODEL` to change) |
+| Key from the environment | `ANTHROPIC_API_KEY` | `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) |
+
+Choose the provider and paste its key once under **Settings → AI scan**. The app checks the key with the provider, which doesn't use up any quota. The key is then stored on the server only and is never sent back to the browser. A key set in the environment takes precedence over one pasted in Settings. `OCR_PROVIDER=gemini` sets the starting provider until you pick one in Settings.
+
+Both providers fill exactly the same output format. Every reply is checked against that format before the app uses it, and anything that doesn't fit is treated as an unreadable photo. Whichever provider you use, the numbers only fill in the review screen. Nothing changes stock until you confirm.
+
+**Limits.** When Gemini's free quota or rate limit is used up (or Claude's rate limit is reached), the scan stops with *"Free limit reached, try again later or enter manually"* and an **Enter manually** button. On a multi-page count, pages already scanned are kept and only the remaining rows are left for you to type. On Gemini, photos are sent one at a time, to stay within the free tier's requests-per-minute limit.
+
+**Privacy.** On Gemini's free tier, Google may use what you send (including photos) to improve its products, and people may review it. Check [Google's Gemini API terms](https://ai.google.dev/gemini-api/terms) before sending sheets, especially anything confidential. Keys on a paid (billing-enabled) Google project are covered by different terms.
+
+Without any key, everything else still works, and counts and deliveries can be typed in.
+
+For development, `npm run dev` runs the API on :3000 and the Vite dev server with hot reload. Tests: `npm test` (the AI scan tests use a local mock of the Gemini and Claude APIs; no keys or network needed).
 
 On first start the 89 SKUs from `PACKAGING_INVENTORY_AUTOMATION.xlsx` (Master Inventory) are loaded. To add or update items later, upload the workbook again under Settings → *Master inventory*. Your minimum levels and units are kept.
 
@@ -79,7 +97,8 @@ On first start the 89 SKUs from `PACKAGING_INVENTORY_AUTOMATION.xlsx` (Master In
 
 ```
 shared/   calendar, order/status/depletion engine, fuzzy SKU matching (+ unit tests)
-server/   Express API, SQLite schema, OCR (Claude vision), Excel import/export, web push + reminder scheduler
+server/   Express API, SQLite schema, Excel import/export, web push + reminder scheduler
+  ocr/    AI scan: shared schemas and prompts, Claude and Gemini adapters, provider choice (+ tests with a mock API server)
 web/      React PWA (Home, Count, Delivery, Usage, Order, Items, Reports, SKU matching, Settings, Audit)
 ```
 

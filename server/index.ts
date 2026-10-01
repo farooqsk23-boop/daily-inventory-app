@@ -3,9 +3,14 @@ import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
-import { seedIfEmpty } from "./db.ts";
-import { startScheduler, vapidPublicKey } from "./push.ts";
-import { api } from "./routes.ts";
+
+// Load .env from the project root if present (works the same on Windows, macOS and Linux).
+const envFile = join(dirname(fileURLToPath(import.meta.url)), "..", ".env");
+if (existsSync(envFile)) process.loadEnvFile(envFile);
+
+const { seedIfEmpty } = await import("./db.ts");
+const { startScheduler, vapidPublicKey } = await import("./push.ts");
+const { api } = await import("./routes.ts");
 
 const here = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT ?? 3000);

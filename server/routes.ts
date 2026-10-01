@@ -21,7 +21,20 @@ import {
   upsertMaster,
 } from "./db.ts";
 import { buildWorkbook, parseMasterWorkbook, parseUsageWorkbook } from "./excel.ts";
-import { OcrError, ocrAvailable, ocrSource, readCountSheet, readDeliveryNote, removeApiKey, saveApiKey, type ImageInput } from "./ocr.ts";
+import {
+  isProvider,
+  OcrError,
+  ocrAvailable,
+  ocrStatus,
+  readCountPhotos,
+  readDeliveryNote,
+  removeApiKey,
+  saveApiKey,
+  setProvider,
+  activeProvider,
+  type CountOcr,
+  type ImageInput,
+} from "./ocr/index.ts";
 import { notifyAll, saveSubscription, removeSubscription, subscriptionCount, vapidPublicKey, orderReminderMessage } from "./push.ts";
 import { currentPlan, discrepancyFor, engineInput, openOrderLines, today } from "./state.ts";
 
@@ -45,30 +58,50 @@ function bad(res: Response, message: string, code = 400, extra: object = {}) {
 // ---------- health / dashboard ----------
 
 api.get("/health", (_req, res) => {
-  res.json({ ok: true, ocr: ocrAvailable(), ocrSource: ocrSource(), pushSubscribers: subscriptionCount(), auth: !!process.env.APP_PIN });
+  const scan = ocrStatus();
+  res.json({ ok: true, ocr: scan.ready, ocrProvider: scan.provider, ocrProviders: scan.providers, pushSubscribers: subscriptionCount(), auth: !!process.env.APP_PIN });
 });
 
-// ---------- AI scan key ----------
+// ---------- AI scan provider & keys ----------
+// Keys are stored server-side only; no endpoint ever returns them.
+
+api.put(
+  "/ocr/provider",
+  wrap((req, res) => {
+    const provider = req.body?.provider;
+    if (!isProvider(provider)) return bad(res, "Unknown provider");
+    const old = activeProvider();
+    if (old !== provider) {
+      setProvider(provider);
+      audit({ actor: actor(), action: "update", entity: "setting", field: "AI scan provider", oldValue: old, newValue: provider });
+    }
+    res.json(ocrStatus());
+  }),
+);
 
 api.put(
   "/ocr/key",
   wrap(async (req, res) => {
+    const provider = req.body?.provider ?? activeProvider();
+    if (!isProvider(provider)) return bad(res, "Unknown provider");
     try {
-      await saveApiKey(String(req.body?.key ?? ""));
+      await saveApiKey(provider, String(req.body?.key ?? ""));
     } catch (e) {
       return ocrFail(res, e);
     }
-    audit({ actor: actor(), action: "update", entity: "setting", field: "AI scan key", newValue: "set" });
-    res.json({ ok: true });
+    audit({ actor: actor(), action: "update", entity: "setting", field: `AI scan key (${provider})`, newValue: "set" });
+    res.json(ocrStatus());
   }),
 );
 
 api.delete(
   "/ocr/key",
-  wrap((_req, res) => {
-    removeApiKey();
-    audit({ actor: actor(), action: "update", entity: "setting", field: "AI scan key", newValue: "removed" });
-    res.json({ ok: true, ocr: ocrAvailable() });
+  wrap((req, res) => {
+    const provider = req.body?.provider ?? activeProvider();
+    if (!isProvider(provider)) return bad(res, "Unknown provider");
+    removeApiKey(provider);
+    audit({ actor: actor(), action: "update", entity: "setting", field: `AI scan key (${provider})`, newValue: "removed" });
+    res.json(ocrStatus());
   }),
 );
 
@@ -271,7 +304,7 @@ api.get("/uploads/:id", (req, res) => {
 });
 
 function ocrFail(res: Response, e: unknown) {
-  if (e instanceof OcrError) return bad(res, e.message, e.kind === "config" ? 503 : 422, { kind: e.kind });
+  if (e instanceof OcrError) return bad(res, e.message, e.kind === "config" ? 503 : e.kind === "quota" ? 429 : 422, { kind: e.kind });
   throw e;
 }
 
@@ -309,14 +342,14 @@ api.post(
     const { ids, images } = saveImages(files);
     const rows = sheetRows();
     try {
-      // One request per photo so a single bad photo can be retaken on its own.
-      const results = await Promise.all(images.map((img) => readCountSheet([img], rows)));
+      const results = await readCountPhotos(images, rows);
+      const failed = (r: CountOcr | OcrError): r is OcrError => r instanceof OcrError;
       const merged = new Map<string, { sku: string; count: number | null; confidence: string; note: string; photo: number }>();
       const rank = { high: 3, medium: 2, low: 1 } as const;
       const known = new Set(rows.map((r) => r.sku.toUpperCase()));
       const bySkuRow = new Map(rows.map((r) => [r.row, r.sku]));
       results.forEach((r, photo) => {
-        if (!r.quality.readable) return;
+        if (failed(r) || !r.quality.readable) return;
         for (const line of r.rows) {
           // Trust the printed SKU; fall back to the row number.
           const sku = known.has(line.sku.toUpperCase()) ? rows.find((x) => x.sku.toUpperCase() === line.sku.toUpperCase())!.sku : bySkuRow.get(line.row);
@@ -330,7 +363,11 @@ api.post(
       });
       res.json({
         photos: ids,
-        quality: results.map((r, i) => ({ photo: ids[i], readable: r.quality.readable, problem: r.quality.problem, rowsRead: r.rows.filter((x) => x.count != null).length })),
+        quality: results.map((r, i) =>
+          failed(r)
+            ? { photo: ids[i], readable: false, problem: r.message, kind: r.kind, rowsRead: 0 }
+            : { photo: ids[i], readable: r.quality.readable, problem: r.quality.problem, kind: r.quality.readable ? null : "retake", rowsRead: r.rows.filter((x) => x.count != null).length },
+        ),
         lines: [...merged.values()],
       });
     } catch (e) {

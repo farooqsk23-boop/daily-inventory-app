@@ -6,10 +6,10 @@
   "description": "Daily packaging stock, order calculation and depletion alerts for a single stockroom controller.",
   "scripts": {
     "dev": "concurrently -k -n api,web \"npm:dev:api\" \"npm:dev:web\"",
-    "dev:api": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx watch server/index.ts",
+    "dev:api": "cross-env NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx watch server/index.ts",
     "dev:web": "vite",
     "build": "tsc -p tsconfig.json --noEmit && vite build",
-    "start": "NODE_ENV=production NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx server/index.ts",
+    "start": "cross-env NODE_ENV=production NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx server/index.ts",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",
+    "@google/genai": "^2.25.0",
+    "cross-env": "^10.1.0",
     "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "jspdf": "^4.2.1",

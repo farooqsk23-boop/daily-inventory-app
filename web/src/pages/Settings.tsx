@@ -9,7 +9,7 @@ export function SettingsPage() {
   const [s, setS] = useState<Settings>(dash!.settings);
   const [holiday, setHoliday] = useState("");
   const [saving, setSaving] = useState(false);
-  const health = useLoad<{ ocr: boolean; ocrSource: "env" | "settings" | null; pushSubscribers: number; auth: boolean }>("/health");
+  const health = useLoad<{ ocr: boolean; ocrProvider: ProviderId; ocrProviders: ScanStatus["providers"]; pushSubscribers: number; auth: boolean }>("/health");
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +36,13 @@ export function SettingsPage() {
   return (
     <>
       <TopBar title="Settings" />
-      <AiScan source={health.data?.ocrSource ?? null} loaded={!!health.data} onChange={() => { health.reload(); refresh(); }} />
+      <AiScan
+        status={health.data ? { provider: health.data.ocrProvider, providers: health.data.ocrProviders } : null}
+        onChange={() => {
+          health.reload();
+          refresh();
+        }}
+      />
       <form onSubmit={save}>
         <div className="card">
           <h2>Ordering</h2>
@@ -220,17 +226,48 @@ function MasterImport() {
   );
 }
 
-function AiScan({ source, loaded, onChange }: { source: "env" | "settings" | null; loaded: boolean; onChange: () => void }) {
+type ProviderId = "claude" | "gemini";
+type KeySource = "env" | "settings" | null;
+export interface ScanStatus {
+  provider: ProviderId;
+  providers: Record<ProviderId, { label: string; source: KeySource; model: string }>;
+}
+
+const PROVIDER_INFO: Record<ProviderId, { placeholder: string; where: string; env: string }> = {
+  claude: { placeholder: "sk-ant-…", where: "console.anthropic.com → API keys", env: "ANTHROPIC_API_KEY" },
+  gemini: { placeholder: "AIza…", where: "aistudio.google.com → Get API key", env: "GEMINI_API_KEY" },
+};
+
+function AiScan({ status, onChange }: { status: ScanStatus | null; onChange: () => void }) {
   const toast = useToast();
   const [key, setKey] = useState("");
   const [busy, setBusy] = useState(false);
+  const [switching, setSwitching] = useState(false);
+  const provider = status?.provider ?? "claude";
+  const info = PROVIDER_INFO[provider];
+  const p = status?.providers[provider];
+  const source = p?.source ?? null;
+
+  const choose = async (next: ProviderId) => {
+    if (next === provider) return;
+    setSwitching(true);
+    try {
+      await api.put("/ocr/provider", { provider: next });
+      setKey("");
+      onChange();
+    } catch (err) {
+      toast(errMsg(err), "error");
+    } finally {
+      setSwitching(false);
+    }
+  };
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     try {
-      await api.put("/ocr/key", { key });
+      await api.put("/ocr/key", { provider, key });
       setKey("");
-      toast("AI scan is on");
+      toast(`AI scan is on with ${p?.label ?? provider}`);
       onChange();
     } catch (err) {
       toast(errMsg(err), "error");
@@ -239,35 +276,62 @@ function AiScan({ source, loaded, onChange }: { source: "env" | "settings" | nul
     }
   };
   const remove = async () => {
-    if (!confirm("Remove the API key? AI scan will stop working until you add one again.")) return;
-    await api.del("/ocr/key");
+    if (!confirm(`Remove the ${p?.label} API key? AI scan will stop working with ${p?.label} until you add one again.`)) return;
+    await api.del("/ocr/key", { provider });
     onChange();
   };
+
   return (
-    <div className={`card ${loaded && !source ? "warn" : ""}`}>
+    <div className={`card ${status && !source ? "warn" : ""}`}>
       <h2>
         <span className="row nowrap" style={{ gap: 8 }}>
           <Icon name="scan" /> AI scan
         </span>
-        {loaded && (source ? <span className="pill ok">on</span> : <span className="pill low">off</span>)}
+        {status && (source ? <span className="pill ok">on · {p?.label}</span> : <span className="pill low">off</span>)}
       </h2>
       <p className="small muted" style={{ marginTop: 0 }}>
         Reads handwritten count sheets and delivery notes from your photos. You still check every number before anything is saved.
       </p>
+      <div className="field">
+        <span className="small" style={{ display: "block", color: "var(--ink-2)", fontWeight: 500, marginBottom: 6 }}>
+          Provider
+        </span>
+        <div className="seg" role="radiogroup" aria-label="AI scan provider">
+          {(["claude", "gemini"] as const).map((id) => (
+            <button key={id} type="button" role="radio" aria-checked={provider === id} className={provider === id ? "on" : ""} disabled={switching} onClick={() => choose(id)}>
+              {status?.providers[id].label ?? id}
+              {status?.providers[id].source ? " ✓" : ""}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {provider === "gemini" && (
+        <div className="card warn small" style={{ boxShadow: "none" }}>
+          <strong>Privacy on Gemini's free tier.</strong> Google may use the photos you send on the free tier to improve its products, and people may review them. Check
+          Google's Gemini API terms (ai.google.dev/gemini-api/terms) before sending sheets, especially anything confidential. Keys on a paid (billing-enabled) Google project are
+          covered by different terms.
+        </div>
+      )}
+
       {source === "env" ? (
-        <div className="small">Switched on by the server's ANTHROPIC_API_KEY.</div>
+        <div className="small">
+          Switched on by the server's {info.env} (model {p?.model}).
+        </div>
       ) : (
         <form onSubmit={save}>
           <label className="field">
-            <span>{source ? "Replace Claude API key" : "Claude API key"}</span>
-            <input className="input" type="password" autoComplete="off" placeholder="sk-ant-…" value={key} onChange={(e) => setKey(e.target.value)} />
+            <span>
+              {source ? "Replace" : ""} {p?.label ?? provider} API key
+            </span>
+            <input className="input" type="password" autoComplete="off" placeholder={info.placeholder} value={key} onChange={(e) => setKey(e.target.value)} />
             <div className="tiny muted" style={{ marginTop: 4 }}>
-              Create one at console.anthropic.com → API keys. It is kept on the server only and never shown again.
+              Create one at {info.where}. It is kept on the server only and never shown again.
             </div>
           </label>
           <div className="row">
             <button className="btn primary" disabled={busy || !key.trim()}>
-              {busy ? "Checking key…" : source ? "Replace key" : "Switch on AI scan"}
+              {busy ? "Checking key…" : source ? "Replace key" : `Switch on with ${p?.label ?? provider}`}
             </button>
             {source === "settings" && (
               <button type="button" className="btn danger" onClick={remove}>

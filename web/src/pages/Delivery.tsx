@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api, type Item, type MatchResult, type OpenLine } from "../api.ts";
 import { useDash } from "../App.tsx";
-import { AiScanSetup, go, Conf, Icon, Loading, PhotoPicker, SkuSelect, TopBar, errMsg, useLoad, useToast } from "../ui.tsx";
+import { AiScanSetup, go, ScanError, scanFailure, type ScanFailure, Conf, Icon, Loading, PhotoPicker, SkuSelect, TopBar, errMsg, useLoad, useToast } from "../ui.tsx";
 import { day, fmt, unitLabel, type PreparedPhoto } from "../util.ts";
 
 interface OcrLine {
@@ -55,7 +55,7 @@ export function Delivery() {
   const [reference, setReference] = useState("");
   const [lines, setLines] = useState<Line[]>([]);
   const [photoIds, setPhotoIds] = useState<string[]>([]);
-  const [retake, setRetake] = useState<string | null>(null);
+  const [scanError, setScanError] = useState<ScanFailure | null>(null);
   const [saving, setSaving] = useState(false);
   const [checks, setChecks] = useState<Check[] | null>(null);
 
@@ -66,7 +66,7 @@ export function Delivery() {
   const read = async () => {
     if (!dash!.ocr) return go("/settings");
     setStep("reading");
-    setRetake(null);
+    setScanError(null);
     const fd = new FormData();
     photos.forEach((p, i) => fd.append("photos", p.blob, `delivery-${i + 1}.jpg`));
     try {
@@ -101,9 +101,8 @@ export function Delivery() {
       );
       setStep("review");
     } catch (e) {
-      const msg = errMsg(e);
       setStep("start");
-      setRetake(msg);
+      setScanError(scanFailure(e));
     }
   };
 
@@ -187,12 +186,7 @@ export function Delivery() {
     return (
       <>
         <TopBar title="Delivery" sub="Photograph the delivery note, AI scan reads the lines" />
-        {retake && (
-          <div className="card warn">
-            <strong>Please retake the photo</strong>
-            <div className="small">{retake}</div>
-          </div>
-        )}
+        {scanError && <ScanError failure={scanError} onManual={() => { setScanError(null); addBlank(); }} />}
         {!dash!.ocr && <AiScanSetup />}
         <div className="card">
           <PhotoPicker photos={photos} onChange={setPhotos} label="Delivery note" />
