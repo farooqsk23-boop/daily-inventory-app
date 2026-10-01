@@ -1,0 +1,714 @@
+[
+ {
+  "sku": "PM00013034",
+  "name": "Pulp Cont Sabert Eco Local 30oz 6x9 Rect - Laminated (1x300)",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": 25.0,
+  "maxHolding": 63.0,
+  "packSize": 300.0
+ },
+ {
+  "sku": "PM00013033",
+  "name": "Sabert Eco Local 36oz 6x9 Rect Pulp Container",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": 12.0,
+  "maxHolding": 20.0,
+  "packSize": 300.0
+ },
+ {
+  "sku": "HOT0216",
+  "name": "INSERT CUP PET FOR 12/16 OZ SQUARE CONTAINER (500 PCS)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": 10.0,
+  "maxHolding": 25.0,
+  "packSize": 500.0
+ },
+ {
+  "sku": "HOT0217",
+  "name": "LID FLAT FOR 12/16 OZ SQUARE DELI CONTAINER (500 PCS)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": 10.0,
+  "maxHolding": 25.0,
+  "packSize": 500.0
+ },
+ {
+  "sku": "PM00010690",
+  "name": "SQUARE 24OZ DELI CONTAINER 1X500PC W/O LID",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": 1.0,
+  "maxHolding": 10.0,
+  "packSize": 500.0
+ },
+ {
+  "sku": "HOT0218",
+  "name": "12 OZ SQUARE PET DELI CONTAINER (500 PCS)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 20.0,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0219",
+  "name": "16 OZ SQUARE PET DELI CONTAINER (500 PCS)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 20.0,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0213",
+  "name": "8 OZ DELI GOURMET CONTAINER",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 6.0,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0211",
+  "name": "LID FOR 8 OZ DELI GOURMENT",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 6.0,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0212",
+  "name": "LID FOR 6/8/10 OZ YOUGURT CUP",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 5.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014004",
+  "name": "BRANDED SALAD BOWL INSERT 1PC (AL SALEM)",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014003",
+  "name": "BRANDED SALAD BOWL LID 1PC (AL SALEM)",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014002",
+  "name": "BRANDED SALAD BOWL 1500ML 1PC (AL SALEM)",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014116",
+  "name": "8 OZ ROUND CONTAINER IC95-1X1000 PCS",
+  "supplier": "FALCON PACK INDUSTRY LLC",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014117",
+  "name": "LID FOR 8 OZ ROUND CONTAINER-IC95-1X1000 PCS",
+  "supplier": "FALCON PACK INDUSTRY LLC",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014234",
+  "name": "PORTION CUP CLEAR STAR W/LID 4OZ X 2000PCS",
+  "supplier": "STARS PACKAGING INDUSTRIES L.L.C",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014578",
+  "name": "STARS PORTION CLEAR PP CUP 2 OZ 1X2000PCS",
+  "supplier": "STARS PACKAGING INDUSTRIES L.L.C",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014644",
+  "name": "STARS PORTION CLEAR PP CUP 3 OZ 1X1500PCS",
+  "supplier": "STARS PACKAGING INDUSTRIES L.L.C",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014581",
+  "name": "STARS PORTION CLEAR PP LID FOR 2/3/4 OZ CUP (1X2000PCS)",
+  "supplier": "STARS PACKAGING INDUSTRIES L.L.C",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014633",
+  "name": "STARS PORTION CLEAR PP LID FOR 2/3/4 OZ CUP (1X1500PCS)",
+  "supplier": "STARS PACKAGING INDUSTRIES L.L.C",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014231",
+  "name": "PORTION CUP CLEAR STAR W/LID 1OZ X 2000PCS",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014231a",
+  "name": "PORTION CUP CLEAR STAR LID 1OZ X 2000PCS",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0225",
+  "name": "5.5 OZ PET CLEAR PORTION CUP (2500 PCS) C165CCB",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0228",
+  "name": "4 OZ PET CLEAR PORTION CUP (2500 PCS)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": null,
+  "packSize": null
+ },
+ {
+  "sku": "HOT0215",
+  "name": "LID FOR 4/5 OZ SAUCE CUP",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 12.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014413",
+  "name": "4 OZ WHITE KRAFT CONTAINER 1X1000 PCS",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014414",
+  "name": "LID FOR 4 OZ WHITE KRAFT CONTAINER 1X1000 PCS",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00001050",
+  "name": "ICE CREAM BOWL PET 10OZ 1X1000PC / CTN (ICB10PET98)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00012788",
+  "name": "Calo Branded Soup Bowl-750 ML w/o lid (Green)",
+  "supplier": "Guangzhou Maibao Packaging",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00012789",
+  "name": "Calo Branded Soup Bowl-750 ML Lid (Green)",
+  "supplier": "Guangzhou Maibao Packaging",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00012790",
+  "name": "Calo Branded Soup Bowl-400 ML w/o lid (Green)",
+  "supplier": "Guangzhou Maibao Packaging",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00012791",
+  "name": "Calo Branded Soup Bowl-400 ML Lid (Green)",
+  "supplier": "Guangzhou Maibao Packaging",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013032",
+  "name": "Pulp bowl Sabert Eco Local 770ml Oval - Laminated (1x300)",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": null,
+  "maxHolding": 38.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013031",
+  "name": "Pulp bowl Sabert Eco Local 620ml Oval - Laminated (1x300)",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": null,
+  "maxHolding": 16.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013029",
+  "name": "PP Lid for Sabert 6x9 (30/36oz) Pulp Trays (1x300)",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": null,
+  "maxHolding": 72.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013030",
+  "name": "PP Lid for Sabert 620&770ml Pulp Oval Bowl (1x300)",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": null,
+  "maxHolding": 48.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00009400",
+  "name": "SABERT PULP RECT. CONTAINER 6 X 9in - 2 COMP-1 X 300 PCS",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014686",
+  "name": "WHITE KRAFT 240ML CONTAINER 1X500 PCS",
+  "supplier": "N/A",
+  "avgDaily": null,
+  "maxHolding": 8.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014687",
+  "name": "LID FOR WHITE KRAFT 240ML CONTAINER 1X500 PCS",
+  "supplier": "N/A",
+  "avgDaily": null,
+  "maxHolding": 8.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014241",
+  "name": "PP CUTLERY SET 1 PC (AL SALEM)",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 30.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013457",
+  "name": "Calo Green Bag UAE 2025",
+  "supplier": "Guangzhou Maibao Packaging",
+  "avgDaily": null,
+  "maxHolding": 60.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013800",
+  "name": "Calo Branded Cooler Bag 1pc (non-woven)",
+  "supplier": "Al Mutamayez Bags Ind. LLC",
+  "avgDaily": null,
+  "maxHolding": 1008.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00007650",
+  "name": "BRANDED ICE PACK 400GM 1PC",
+  "supplier": "Al Mutamayez Bags Ind. LLC",
+  "avgDaily": null,
+  "maxHolding": 2000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013537",
+  "name": "TEMPER SEAL CALO SILVER BRANDED 1X1000 PIECES",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 12.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014206",
+  "name": "Black Base Rectangular Container 300'S (BBRE32300B)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014207",
+  "name": "Lid Black Base Rectangular Container 300'S (BBRE283238L)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 18.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014534",
+  "name": "Xiamen Labels Rolls NEW 50x 1000 pcs BH",
+  "supplier": "Falcon Hospitality W.L.L",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00008430",
+  "name": "SNACK STICKERS 38mm x 25mm 1000 PCS",
+  "supplier": "YASHTECH TRADING LLC",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00002580",
+  "name": "ZEBRA ROLL BACK LABEL, 75MM x 55MM 1000 LABELS/ROLL CORE SIZE: 40mm No printing",
+  "supplier": "YASHTECH TRADING LLC",
+  "avgDaily": null,
+  "maxHolding": 4.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00008400",
+  "name": "GREEN SALAD BOWL SLEEVE FOLDED 170 GSM ART MATT W/LAMINATION",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013258",
+  "name": "CALO GREEN CLOSED SLEEVES 170 GSM FOR RECTANGLE 30 OZ SABERT CONTAINERS",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013255",
+  "name": "CALO GREEN CLOSED SLEEVES 170 GSM FOR RECTANGLE 36 OZ SABERT CONTAINERS",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 5.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013256",
+  "name": "CALO GREEN CLOSED SLEEVES 170 GSM FOR OVAL 770 ML SABERT CONTAINERS",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 10.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013257",
+  "name": "CALO GREEN CLOSED SLEEVES 170 GSM FOR OVAL 620 ML SABERT CONTAINERS",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 5.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014338",
+  "name": "SMART COPY PAPER, A4 SIZE, 80 GSM, 500 SHEETS - REAM",
+  "supplier": "LABTEK CONSUMABLE SUPPLIES L.L.C",
+  "avgDaily": null,
+  "maxHolding": 15.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00001460",
+  "name": "BIRTHDAY CARD GREEN",
+  "supplier": "TECHNOMATE GENERAL TRADING LLC PACKMATE",
+  "avgDaily": null,
+  "maxHolding": 1500.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013333",
+  "name": "WELCOME CARD GREEN 2025 DESIGN",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 2000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013471",
+  "name": "CHOCOLATE MUG CAKE G SLEEVES 33.6X7X3.9CM 170 GSM MATT LAMINATION 1X1PC",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 1000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013299",
+  "name": "SOUP SLEEVE GREEN WITH DOUBLE SIDE TAPE BOTH SIDE 170 GSM ART MATT PAPER WITH MATT (Green)",
+  "supplier": "TECHNOMATE GENERAL TRADING LLC PACKMATE",
+  "avgDaily": null,
+  "maxHolding": 8000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013294",
+  "name": "SANDWICH PLASTIC WRAP 6 X 9 INCH",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 2000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013229",
+  "name": "SANDWICH PLASTIC WRAP 14 X 26 CM",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 2000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014594",
+  "name": "COOKIE JAR BRANDED 400 ML WITH LID 1X1PC",
+  "supplier": "TECHNOMATE GENERAL TRADING LLC",
+  "avgDaily": null,
+  "maxHolding": 320.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00010570",
+  "name": "PLASTIC SQUARE BOTTLE WITH BLACK CAP 200 ML (1X216 PC/CTN)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 4.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00012728",
+  "name": "6x9 shallow container 20oz Laminated 1x300",
+  "supplier": "Sabert Asia Holdings Limited",
+  "avgDaily": null,
+  "maxHolding": 4.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00010610",
+  "name": "Digital Keys Pet Calo branded lid for 30oz and 36 oz 1x300",
+  "supplier": "DIGITAL KEYS COMPANY",
+  "avgDaily": null,
+  "maxHolding": 4.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00001060",
+  "name": "DIA 98 DOME LID W/O HOLE FOR ICBPET BOWL 8OZ/10OZ 1X1000PC/CTN (DLID98NH)",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 3.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013506",
+  "name": "WRAP BASE BOX MATERIAL AND SPECS: 300 GSM DOUBLE SIDE MATTE (Green)",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "FI00015488",
+  "name": "COFFEE BEANS GRINDED SUMATRA GAYO WASHED 1KG PACK",
+  "supplier": "ROYAL PURPLE ROASTRY LLC",
+  "avgDaily": null,
+  "maxHolding": 5.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014515",
+  "name": "CLEAR PVC STICKER STRAWBERRY SMOOTHIE 12.6 X 7.5 CM",
+  "supplier": "GREENPEARL GIFTS TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 240.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014628",
+  "name": "CLEAR PVC STICKER MANGO COCONUT SMOOTHIE 12.6 X 7.5 CM",
+  "supplier": "GREENPEARL GIFTS TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 240.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013354",
+  "name": "8oz PET dessert containers 1pc",
+  "supplier": "Guangzhou Maibao Package Co.,Ltd",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013355",
+  "name": "8oz flat lid 1pc",
+  "supplier": "Guangzhou Maibao Package Co.,Ltd",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013694",
+  "name": "10OZ PET ICE CREAM BOWL BRANDED (ICB10PET98) 1000 PC / CTN",
+  "supplier": "CRIS & JO GENERAL TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013872",
+  "name": "12OZ PET SQUARE CALO BRANDED CONTAINER WITHOUT LID 1 COLOR PRINT 1X1PC",
+  "supplier": "CRIS & JO GENERAL TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 3.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013871",
+  "name": "16OZ PET SQUARE CALO BRANDED CONTAINER WITHOUT LID 1 COLOR PRINT 1X1PC",
+  "supplier": "CRIS & JO GENERAL TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 1.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013327",
+  "name": "CALO BRANDED 16OZ DELI CONTAINER ROUND 500 PC / CTN",
+  "supplier": "CRIS & JO GENERAL TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 3.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013325",
+  "name": "LID FOR ROUND DELI CONTAINER 8/12/16/24/32 OZ (DLIDDCRPETHP) 500PC / CTN",
+  "supplier": "HOT PACK PACKAGING (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 3.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014334",
+  "name": "HOT SAUCE STICKER VINYL 1X1PC",
+  "supplier": "GREENPEARL GIFTS TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 160.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013308",
+  "name": "Sandwich sleeve - Calo cafe SIZE: 30 X 6.12 CM",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 5000.0,
+  "packSize": null
+ },
+ {
+  "sku": "NF00010407",
+  "name": "STRETCH FILM 2.5KG 1X6 PCS",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 4.0,
+  "packSize": null
+ },
+ {
+  "sku": "NF00005880",
+  "name": "CLING FILM 45CM X 300MTR AL SALEM 1X6 PCS",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 2.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014307",
+  "name": "SWEET n'SPICY TUNA SANDWICH, CHICKEN PARMIGIANA SANDWICH, CALO BLT SANDWICH SLEEVES",
+  "supplier": "COLOUR POINT PRINTING ADVERTISING L.L.C",
+  "avgDaily": null,
+  "maxHolding": 100.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013079",
+  "name": "Box makers Square branded sharing box pc",
+  "supplier": "GREENPEARL GIFTS TRADING CO. L.L.C",
+  "avgDaily": null,
+  "maxHolding": 50.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013632",
+  "name": "PLASTIC POUCH 12CM X 12CM +3CM (AL SALEM)",
+  "supplier": "AL SALEM TRADING ENTERPRISES (L.L.C)",
+  "avgDaily": null,
+  "maxHolding": 500.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00013649",
+  "name": "Biscotti Treat card, Brioche/Ciabatta card",
+  "supplier": "Not Mentioned",
+  "avgDaily": null,
+  "maxHolding": 50.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014249",
+  "name": "Frozen Meals Sleeves Vinyl Green Belt, 10 Meals sticker, 5 meals sticker",
+  "supplier": "Not Mentioned",
+  "avgDaily": null,
+  "maxHolding": 1000.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014514",
+  "name": "STYRO E BOX 10KG PL",
+  "supplier": "Not Mentioned",
+  "avgDaily": null,
+  "maxHolding": 100.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014365",
+  "name": "STYRO E BOX 15KG PL",
+  "supplier": "Not Mentioned",
+  "avgDaily": null,
+  "maxHolding": 200.0,
+  "packSize": null
+ },
+ {
+  "sku": "PM00014636",
+  "name": "HYDRATING ICE SHEET 1X24 CELLS 28X40 CM",
+  "supplier": "CARRY COOL PLASTIC MANUFACTURING LLC",
+  "avgDaily": null,
+  "maxHolding": 2500.0,
+  "packSize": null
+ }
+]
