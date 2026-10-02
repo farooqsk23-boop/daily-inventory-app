@@ -9,6 +9,8 @@
     "dev:api": "cross-env NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx watch server/index.ts",
     "dev:web": "vite",
     "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "build:web": "vite build",
+    "prestart": "node scripts/prestart.mjs",
     "start": "cross-env NODE_ENV=production NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx server/index.ts",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"

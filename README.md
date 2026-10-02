@@ -55,15 +55,19 @@ Every change records who or what made it in the **audit trail**: a manual edit, 
 
 ## Running it
 
-Needs Node.js 22.13 or newer (uses the built-in `node:sqlite`). The same commands work on Windows (Command Prompt or PowerShell), macOS and Linux:
+Needs Node.js 22.13 or newer (the LTS from [nodejs.org](https://nodejs.org)). The app uses Node's built-in `node:sqlite`.
 
 ```bash
-npm install
-npm run build               # builds the web app into dist/
 npm start                   # http://localhost:3000
 ```
 
+The first `npm start` in a new folder installs the packages and builds the app, which takes a minute or two. Later starts skip straight to the server, and the app is rebuilt automatically if its code has changed. On Windows you can also double-click **`start-stockroom.bat`**. The same commands work in Command Prompt, PowerShell, macOS and Linux.
+
 Settings such as `APP_PIN` or `PORT` can go in a `.env` file in the project folder (copy `.env.example`). The server loads it on start, so there is no need to set variables in the shell.
+
+**Windows tip:** keep the app folder outside OneDrive, for example `C:\stockroom`. OneDrive syncing tens of thousands of package files makes installs slow, and can lock files mid-install (`EPERM` errors).
+
+If something goes wrong during setup, you can run the steps by hand: `npm install`, then `npm run build`, then `npm start`.
 
 ## AI scan (Claude or Gemini)
 
